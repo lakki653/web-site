@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/lakki653/sample-web-page.git'
+            }
+        }
+        stage('Build WAR') {
+            steps {
+                script {
+                    // Assuming you use Maven to create the WAR file
+                    sh 'mvn clean package'
+                }
+            }
+        }
+        stage('Archive WAR') {
+            steps {
+                archiveArtifacts artifacts: '**/*.war', allowEmptyArchive: true
+            }
+        }
+    }
+}
